@@ -10,9 +10,10 @@ import SnapKit
 
 class HomeViewController: UIViewController, UICollectionViewDelegate,UICollectionViewDataSource {
     
-    private var upComingMoviesCollectionView:UICollectionView?
-    private var pageController: UIPageViewController?
-    private var nowPlayingMoviesCollectionView: UICollectionView?
+    private var upComingMoviesCollectionView,nowPlayingMoviesCollectionView: UICollectionView!
+    private var moviePageControl = UIPageControl()
+    private var currentPage = 0
+    private var movies = ["","","","","",""]
     
     
     override func viewDidLoad() {
@@ -28,19 +29,33 @@ class HomeViewController: UIViewController, UICollectionViewDelegate,UICollectio
         flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
         flowLayout.minimumLineSpacing = 0
         
+        
         upComingMoviesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        upComingMoviesCollectionView?.backgroundColor = UIColor.clear
-        upComingMoviesCollectionView?.alpha = 0.6
-        upComingMoviesCollectionView?.delegate = self
-        upComingMoviesCollectionView?.dataSource = self
-        upComingMoviesCollectionView?.register(UpcomingMoviesCollectionViewCell.self, forCellWithReuseIdentifier: "UpcomingMoviesCollectionViewCell")
-        view.addSubview(upComingMoviesCollectionView!)
-        upComingMoviesCollectionView?.contentInsetAdjustmentBehavior = .never
+        upComingMoviesCollectionView.backgroundColor = UIColor.clear
+        upComingMoviesCollectionView.alpha = 0.6
+        upComingMoviesCollectionView.delegate = self
+        upComingMoviesCollectionView.dataSource = self
+        upComingMoviesCollectionView.showsHorizontalScrollIndicator = false
+        upComingMoviesCollectionView.contentInsetAdjustmentBehavior = .never
+        upComingMoviesCollectionView.isPagingEnabled = true
+        upComingMoviesCollectionView.register(UpcomingMoviesCollectionViewCell.self, forCellWithReuseIdentifier: "UpcomingMoviesCollectionViewCell")
+        view.addSubview(upComingMoviesCollectionView)
+        
+        moviePageControl.numberOfPages = 5
+        moviePageControl.currentPage = currentPage
+        moviePageControl.pageIndicatorTintColor = .gray.withAlphaComponent(0.8)
+        moviePageControl.currentPageIndicatorTintColor = .white
+        view.addSubview(moviePageControl)
+        
         upComingMoviesCollectionView?.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
             make.top.equalTo(self.view)
             make.height.equalTo(276.handleSmallScreenConstraints())
         }
+        moviePageControl.snp.makeConstraints({ make in
+            make.bottom.equalTo(upComingMoviesCollectionView!.snp.bottom).offset(-8)
+            make.left.right.equalToSuperview()
+        })
     }
     
     func makeNowPlayingMovies(){
@@ -83,9 +98,12 @@ class HomeViewController: UIViewController, UICollectionViewDelegate,UICollectio
         let detailView = MovieDetailViewController()
         self.navigationController?.pushViewController(detailView, animated: true)
     }
-    func removeNavigationBar() {
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.view.backgroundColor = .clear
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView == upComingMoviesCollectionView {
+            currentPage = Int(upComingMoviesCollectionView?.contentOffset.x ?? 0) / Int(upComingMoviesCollectionView?.frame.width ?? 0)
+            moviePageControl.currentPage = currentPage
+        }
     }
 }
 

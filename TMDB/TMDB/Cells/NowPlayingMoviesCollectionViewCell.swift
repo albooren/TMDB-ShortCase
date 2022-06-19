@@ -75,11 +75,11 @@ class NowPlayingMoviesCollectionViewCell: UICollectionViewCell {
         movieShortDescLabel?.snp.makeConstraints({ make in
             make.top.equalTo(movieNameLabel!.snp.bottom).offset(8)
             make.left.equalTo(movieNameLabel!)
-            make.right.equalTo(rightArrow!.snp.left).offset(-5)
+            make.right.equalTo(rightArrow!.snp.left).offset(-19)
         })
         movieDateLabel?.snp.makeConstraints({ make in
             make.bottom.equalTo(movieImage!.snp.bottom)
-            make.right.equalToSuperview().inset(28)
+            make.right.equalTo(movieShortDescLabel!)
         })
         underLine.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(2)

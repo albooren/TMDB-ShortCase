@@ -85,6 +85,23 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		3F2202E9285F346900E4CA93 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				3F2202E0285F28AE00E4CA93 /* FontManager.swift */,
+				3F1B51A2285DFEFC004ECA39 /* Extension-HandleConstraints.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		3F2202EA285F34DF00E4CA93 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				3F1B51A4285DFF53004ECA39 /* Constant.swift */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
 		3F557EEE285DEF4C00524340 = {
 			isa = PBXGroup;
 			children = (
@@ -113,11 +130,10 @@
 				3F557F03285DEF4D00524340 /* Assets.xcassets */,
 				3F557F05285DEF4D00524340 /* LaunchScreen.storyboard */,
 				3F557F08285DEF4D00524340 /* Info.plist */,
-				3F2202E2285F2A6E00E4CA93 /* Fonts */,
+				3F2202EA285F34DF00E4CA93 /* Controls */,
 				3F1B51A6285E10D9004ECA39 /* Cells */,
-				3F1B51A4285DFF53004ECA39 /* Constant.swift */,
-				3F2202E0285F28AE00E4CA93 /* FontManager.swift */,
-				3F1B51A2285DFEFC004ECA39 /* Extension-HandleConstraints.swift */,
+				3F2202E9285F346900E4CA93 /* Helpers */,
+				3F2202E2285F2A6E00E4CA93 /* Fonts */,
 			);
 			path = TMDB;
 			sourceTree = "<group>";

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+
 public enum FontName: String {
     case regular = "SanFranciscoText-Regular"
     case bold = "SanFranciscoText-Bold"
@@ -24,8 +25,6 @@ final class FontManager {
     static func fontMedium(_ size:CGFloat)->UIFont {
         return UIFont.init(name: FontName.medium.rawValue, size: size)!
     }
-    
-    //helper
     
     static func printFonts() {
         let fontFamilyNames = UIFont.familyNames
