@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NowPlayingMoviesCollectionViewCell: UICollectionViewCell {
+final class NowPlayingMoviesCollectionViewCell: UICollectionViewCell {
     
     var movieImage,rightArrow:UIImageView?
     var movieNameLabel,movieShortDescLabel,movieDateLabel:UILabel?

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class UpcomingMoviesCollectionViewCell: UICollectionViewCell {
+final class UpcomingMoviesCollectionViewCell: UICollectionViewCell {
     
     var movieImage:UIImageView?
     var movieName:UILabel?
@@ -23,11 +23,11 @@ class UpcomingMoviesCollectionViewCell: UICollectionViewCell {
     func makeUI(){
         movieImage = UIImageView()
         movieImage?.contentMode = .scaleAspectFill
+        movieImage?.alpha = 0.6
         movieImage?.image = UIImage(named: "image1")
         addSubview(movieImage!)
         
         movieName = UILabel()
-        //DOĞRU FONT YÜKLENECEK.
         movieName?.text = "MOONRISE KINGDOM (2012)"
         movieName?.textColor = .white
         movieName?.font = FontManager.fontBold(20)

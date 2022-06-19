@@ -6,24 +6,34 @@
 //
 
 import UIKit
+import SDWebImage
 
-class MovieDetailViewController: UIViewController {
+final class MovieDetailViewController: UIViewController {
     
     private var movieImage,imdbLogo,starIcon:UIImageView?
     private var rateLabel,dateLabel,movieNameLabel,movieDescriptionLabel:UILabel?
     private var fluView,dot:UIView?
     private var scrollView:UIScrollView?
+    var viewModel : MovieDetailViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupConstraints()
+        viewModel.getMovieDetailData {
+            DispatchQueue.main.async {
+                self.updateUI(movieImageURL: self.viewModel.movieDetailModel?.posterPath ?? "",
+                              movieName: self.viewModel.movieDetailModel?.title ?? "",
+                              rate:String(self.viewModel.movieDetailModel?.voteAverage ?? 0),
+                              date: self.viewModel.movieDetailModel?.releaseDate ?? "",
+                              description: self.viewModel.movieDetailModel?.overview ?? "")
+            }
+        }
     }
     
     func setupUI(){
         view.backgroundColor = .white
         navigationController?.navigationBar.tintColor = .black
-        title = "Moonrise Kingdom (2012)"
         navigationController?.navigationBar.topItem?.title = " "
         
         scrollView = UIScrollView()
@@ -32,7 +42,6 @@ class MovieDetailViewController: UIViewController {
         movieImage = UIImageView()
         movieImage?.contentMode = .scaleAspectFill
         movieImage?.clipsToBounds = true
-        movieImage?.image = UIImage(named: "image1")
         scrollView?.addSubview(movieImage!)
         
         fluView = UIView()
@@ -48,10 +57,9 @@ class MovieDetailViewController: UIViewController {
         scrollView?.addSubview(starIcon!)
         
         rateLabel = UILabel()
-        rateLabel?.text = "7.8/10"
+        rateLabel?.textColor = .gray
         rateLabel?.font = FontManager.fontMedium(13)
         scrollView?.addSubview(rateLabel!)
-        
         
         dot = UIView()
         dot?.layer.cornerRadius = 2
@@ -59,19 +67,17 @@ class MovieDetailViewController: UIViewController {
         scrollView?.addSubview(dot!)
         
         dateLabel = UILabel()
-        dateLabel?.text = "15.12.2022"
         dateLabel?.textColor = .black
         dateLabel?.font = FontManager.fontMedium(13)
         scrollView?.addSubview(dateLabel!)
         
         movieNameLabel = UILabel()
-        movieNameLabel?.text = "Moonrise Kingdom (2012)"
         movieNameLabel?.textColor = .black
         movieNameLabel?.font = FontManager.fontBold(20)
         scrollView?.addSubview(movieNameLabel!)
         
         movieDescriptionLabel = UILabel()
-        movieDescriptionLabel?.text = "Moonrise Kingdom is a 2012 American coming-of-age comedy-drama film directed by Wes Anderson, written by Anderson and Roman Coppola. It features an ensemble cast including Bruce Willis, Edward Norton, Bill Murray, Frances McDormand, Tilda Swinton, Jason Schwartzman, Bob Balaban, Harvey Keitel, and newcomers Jared Gilman and Kara Hayward. Largely set on the fictional New England island of New Penzance, it tells the story of an orphan boy (Gilman) who escapes from a scouting camp to unite with his pen pal and love interest, a girl with aggressive tendencies (Hayward). Feeling alienated from their guardians and shunned by their peers, the lovers abscond to an isolated beach. Meanwhile, the island's police captain (Willis) organizes a search party of scouts and family members to locate the runaways."
+        
         movieDescriptionLabel?.textColor = .black
         movieDescriptionLabel?.numberOfLines = 0
         movieDescriptionLabel?.font = FontManager.fontRegular(15)
@@ -137,7 +143,14 @@ class MovieDetailViewController: UIViewController {
         })
         scrollView?.contentSize = CGSize(width: screenWidth, height: 400.handleSmallScreenConstraints() + (movieDescriptionLabel?.frame.height)!)
     }
-    func fillWithMovie(movieName:String,rate:String,date:String,description:String){
-        
+    func updateUI(movieImageURL:String,movieName:String,rate:String,date:String,description:String){
+        movieImage?.sd_setImage(with: NetworkManager.shared.getImageURL(with: movieImageURL))
+        title = movieName
+        let range = (rate + "/10" as NSString).range(of: rate)
+        let mutableAttributedString = NSMutableAttributedString.init(string: rate + "/10")
+        mutableAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black, range: range)
+        rateLabel?.attributedText = mutableAttributedString
+        dateLabel?.text = date
+        movieDescriptionLabel?.text = description
     }
 }
