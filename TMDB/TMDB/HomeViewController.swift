@@ -114,6 +114,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate,UICol
             tempCell.movieNameLabel?.text = viewModel.upComingDataList[indexPath.item].title
             tempCell.movieShortDescLabel?.text = viewModel.upComingDataList[indexPath.item].overview
             tempCell.movieImage?.sd_setImage(with: NetworkManager.shared.getImageURL(with: viewModel.upComingDataList[indexPath.item].posterPath))
+            tempCell.movieDateLabel?.text = viewModel.upComingDataList[indexPath.item].releaseDate
             cell = tempCell
         }
         return cell
